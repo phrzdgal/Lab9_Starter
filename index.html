@@ -84,6 +84,10 @@
       <button>End Timer</button>
       <button>Console Trace</button>
       <button>Trigger a Global Error</button>
+
+      <button id="try-catch">Try/Catch</button>
+      <button id="custom-error">Custom Error</button>
+
     </section>
   </main>
 
@@ -102,7 +106,136 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+
+    const sampleData = {
+      name: "Phiroze Duggal",
+      mission: "Empower the Ummah",
+      strength: "Resiliance"
+    };
+
+    const [
+      logBtn, errorBtn, countBtn, warnBtn, assertBtn,
+      clearBtn, dirBtn, dirxmlBtn, groupStartBtn, groupEndBtn,
+      tableBtn, startTimerBtn, endTimerBtn, traceBtn, globalErrorBtn
+    ] = document.querySelectorAll('#error-btns > button');
+
+
+    // Below functionality to all buttons in starter code, starting with
+    // console.log:
+
+    logBtn.addEventListener('click', () => {
+      console.log("Console Log:", sampleData);
+    });
+    errorBtn.addEventListener('click', () => {
+      console.error("Console Error: Something went wrong.");
+    });
+    countBtn.addEventListener('click', () => {
+      console.count("Count Button Clicked");
+    });
+    warnBtn.addEventListener('click', () => {
+      console.warn("Console Warn: Proceed with caution.");
+    });
+    assertBtn.addEventListener('click', () => {
+      const condition = false; 
+      console.assert(condition, "Assertion failed: condition is false/not true");
+    });
+    clearBtn.addEventListener('click', () => {
+      console.clear();
+    });
+    dirBtn.addEventListener('click', () => {
+      console.dir(document.body);
+    });
+    dirxmlBtn.addEventListener('click', () => {
+      console.dirxml(document.body);
+    });
+    groupStartBtn.addEventListener('click', () => {
+      console.group("Start of Group Logs");
+      console.log("Log inside group");
+      console.log("Second log inside group");
+    });
+    groupEndBtn.addEventListener('click', () => {
+      console.groupEnd();
+    });
+    tableBtn.addEventListener('click', () => {
+      const people = [
+        { name: "Phiroze", role: "Leader" },
+        { name: "Qusay", role: "The Voice" },
+        { name: "Ibrahim", role: "Scout" }
+      ];
+      console.table(people);
+    });
+    startTimerBtn.addEventListener('click', () => {
+      console.time("Timer");
+    });
+    endTimerBtn.addEventListener('click', () => {
+      console.timeEnd("Timer");
+    });
+    traceBtn.addEventListener('click', () => {
+      function initiate() {
+        function execute() {
+          console.trace("Trace initiated");
+        }
+        execute();
+      }
+      initiate();
+    });
+
+
+    // Try/Catch/Finally
+
+    document.getElementById("try-catch").addEventListener("click", () => {
+      try {
+        const broken = document.querySelector("#nonexistent").innerText;
+      } catch (err) {
+        console.error("Caught error in try/catch:", err.message);
+      } finally {
+        console.log("Finally block always runs.");
+      }
+    });
+
+
+    // Custom Error and throw:
+
+    class MissionError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "MissionError";
+      }
+    }
+
+    document.getElementById("custom-error").addEventListener("click", () => {
+      try {
+        throw new MissionError("Mission aborted -- reason being insufficient preparation.");
+      } catch (err) {
+        console.error(`${err.name}: ${err.message}`);
+      }
+    });
+
+
+    // Global error handler
+
+    window.onerror = function (msg, source, lineno, colno, error) {
+      console.log("Global Error Caught:");
+      console.log("Message:", msg);
+      console.log("Source:", source);
+      console.log("Line:", lineno, "Column:", colno);
+      return true; 
+    };
+
+    globalErrorBtn.addEventListener('click', () => {
+      undefinedFunctionCall(); 
+    });
+
   </script>
+
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "56dd48c4fbe64d128c25980621d51fea"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+  
 </body>
 
 </html>
